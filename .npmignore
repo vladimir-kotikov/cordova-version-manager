@@ -1,0 +1,14 @@
+# typescript stuff
+src
+lib/*.map
+typings
+
+typings.json
+tsconfig.json
+tslint.json
+
+# vscode settings
+.vscode
+
+# npm
+*.tgz

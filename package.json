@@ -1,0 +1,40 @@
+{
+  "name": "cordova-version-manager",
+  "version": "1.0.0",
+  "description": "Cordova version manager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vladimir-kotikov/cordova-version-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vladimir-kotikov/cordova-version-manager/issues"
+  },
+  "bin": {
+    "cvm": "./bin/cvm"
+  },
+  "main": "lib/cvm.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "tslint src/**/*.ts",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "cordova",
+    "version",
+    "manager"
+  ],
+  "author": "Vladimir Kotikov <kotikov.vladimir@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "docopt": "^0.6.2",
+    "ora": "^0.3.0",
+    "q": "^1.4.1",
+    "semver": "^5.3.0",
+    "tar": "^2.2.1",
+    "typescript": "^2.0.0"
+  },
+  "devDependencies": {
+    "tslint": "^3.15.1",
+    "typescript": "^1.8.10"
+  }
+}
