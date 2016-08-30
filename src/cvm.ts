@@ -13,11 +13,8 @@ import { CvmConfig } from "./cvm-config";
 export class Cvm {
     private config: CvmConfig;
 
-    constructor(config?: Object) {
+    constructor() {
         this.config = CvmConfig.getDefault();
-
-        Object.keys(config)
-            .forEach(key => { this.config[key] = config[key]; });
     }
 
     private isInstalled(version: string): boolean {
@@ -62,7 +59,7 @@ export class Cvm {
         .filter(f => fs.statSync(path.join(this.config.root, f)).isDirectory());
     }
 
-    public async listAvailable(): Promise<string[]> {
+    public async available(): Promise<string[]> {
         return (await npm.info("cordova"))["versions"];
     }
 
@@ -73,7 +70,7 @@ export class Cvm {
             throw `cordova@${version} is already installed`;
         }
 
-        let availableVersions = await this.listAvailable();
+        let availableVersions = await this.available();
         if (availableVersions.indexOf(version) < 0) {
             throw `cordova@${version} does not exist`;
         }

@@ -15,7 +15,7 @@ let options = docopt(USAGE, {
     version: require("../package.json").version
 });
 
-let cvm = new Cvm({verbose: options["--verbose"]});
+let cvm = new Cvm();
 
 let logErrorAndExit = err => {
     console.error(err);
@@ -24,7 +24,7 @@ let logErrorAndExit = err => {
 
 if (options.ls || options.list) {
     if (options.available) {
-        cvm.listAvailable()
+        cvm.available()
         .then((v) => {
             console.log(v.map(v => "    " + v).join("\n"));
         })
