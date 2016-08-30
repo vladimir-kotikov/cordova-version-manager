@@ -5,6 +5,7 @@ import ora = require("ora");
 import * as path from "path";
 import * as zlib from "zlib";
 import * as semver from "semver";
+import * as rimraf from "rimraf";
 
 import { npm } from "./npm-wrapper";
 import { CvmConfig } from "./cvm-config";
@@ -88,6 +89,26 @@ export class Cvm {
         spinner.text = "Installing downloaded cordova distribution";
         await npm.at(installDir).install();
 
+        spinner.stop();
+    }
+
+    public async uninstall (version: string): Promise<void> {
+        validateVersion(version);
+
+        if (!this.isInstalled(version)) {
+            throw `cordova@${version} is not installed`;
+        }
+
+        let currentVersion = await this.current();
+        if (version === currentVersion) {
+            await this.off();
+        }
+
+        let spinner = ora(`Removing installed cordova ${version}`);
+        spinner.start();
+        // simply remove directory as we've ensured that there
+        // is no link to it from global install directory
+        await rmrf(this.getVersionDir(version));
         spinner.stop();
     }
 
@@ -179,5 +200,14 @@ async function unTgz(sourceTgz: string, destinationDir: string): Promise<void> {
         }))
         .on("end", resolve)
         .on("error", reject);
+    });
+}
+
+async function rmrf(pattern: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        rimraf(pattern, (err?: Error) => {
+            if (err) reject(err);
+            else resolve();
+        });
     });
 }

@@ -48,6 +48,12 @@ if (options.install) {
     .catch(logErrorAndExit);
 }
 
+if (options.uninstall) {
+    const version = options["<version>"];
+    cvm.uninstall(version)
+    .catch(logErrorAndExit);
+}
+
 if (options.use) {
     const version = options["<version>"];
     cvm.use(version)
