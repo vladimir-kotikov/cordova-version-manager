@@ -14,7 +14,8 @@
   },
   "main": "lib/cvm.js",
   "scripts": {
-    "build": "tsc",
+    "restore": "typings install",
+    "build": "npm run restore && tsc",
     "test": "tslint src/**/*.ts",
     "prepublish": "npm run build"
   },
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "tslint": "^3.15.1",
-    "typescript": "^1.8.10"
+    "typescript": "^1.8.10",
+    "typings": "^1.3.3"
   }
 }
