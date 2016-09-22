@@ -9,7 +9,7 @@ export class CvmConfig {
     private changed = false;
 
     // TODO: this works only on windows. Need cross-platform solution
-    public static DEFAULT_ROOT = path.join(process.env.USERPROFILE, ".cvm");
+    public static DEFAULT_ROOT = path.join(process.env.USERPROFILE || process.env.HOME, ".cvm");
 
     public root: string;
     public verbose: boolean;

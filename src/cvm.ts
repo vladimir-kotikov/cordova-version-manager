@@ -55,6 +55,10 @@ export class Cvm {
     }
 
     public list(): string[] {
+        if (!fs.existsSync(this.config.root)) {
+            return [];
+        }
+
         return fs.readdirSync(this.config.root)
         .filter(f => fs.statSync(path.join(this.config.root, f)).isDirectory());
     }
