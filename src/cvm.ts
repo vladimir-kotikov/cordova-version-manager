@@ -30,20 +30,20 @@ export class Cvm {
      * Returns either absolute path to cordova distribution directory or null.
      *
      * @private
-     * @returns {Promise<string>} Location which global cordova is linked to
+     * @returns {Promise<string|null>} Location which global cordova is linked to
      */
-    private async readGlobalLink(): Promise<string> {
-        let result = null;
+    private async readGlobalLink(): Promise<string | null> {
+        let result: string;
         let npmRoot = await npm.getConfig("prefix");
 
         try {
             result = fs.realpathSync(path.join(npmRoot, "node_modules/cordova"));
         } catch (e) { }
 
-        return result;
+        return null;
     }
 
-    public async current(): Promise<string> {
+    public async current(): Promise<string | null> {
         let globalLink = await this.readGlobalLink();
         if (!globalLink) return null;
 

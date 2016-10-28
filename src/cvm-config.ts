@@ -4,11 +4,10 @@ import * as path from "path";
 
 export class CvmConfig {
 
-    private _config: Object = {};
+    private _config: any = {};
     private cvmrc: string;
     private changed = false;
 
-    // TODO: this works only on windows. Need cross-platform solution
     public static DEFAULT_ROOT = path.join(process.env.USERPROFILE || process.env.HOME, ".cvm");
 
     public root: string;
@@ -17,8 +16,12 @@ export class CvmConfig {
     constructor(cvmRoot: string, cvmRc?: string) {
         this.root = cvmRoot;
         this.cvmrc = cvmRc || path.join(cvmRoot, ".cvmrc");
-        this._config = fs.existsSync(this.cvmrc) ?
-            JSON.parse(fs.readFileSync(this.cvmrc, "utf8")) : {};
+
+        try {
+            this._config = JSON.parse(fs.readFileSync(this.cvmrc, "utf8"));
+        } catch (e) {
+            console.log(`Failed to parse config at ${this.cvmrc}`);
+        }
     }
 
     static getDefault(): CvmConfig {

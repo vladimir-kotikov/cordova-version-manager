@@ -17,7 +17,7 @@ let options = docopt(USAGE, {
 
 let cvm = new Cvm();
 
-let logErrorAndExit = err => {
+let logErrorAndExit = (err: any) => {
     console.error(err);
     process.exit(2);
 };

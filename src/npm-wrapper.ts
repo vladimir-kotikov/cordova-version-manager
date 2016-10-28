@@ -15,17 +15,17 @@ async function spawn(command: string, args: string[], cwd: string = process.cwd(
             shell: true
         });
 
-        proc.on("exit", code => {
+        proc.on("exit", (code: number) => {
             if (!code) resolve(output);
             else reject(stderr);
         })
         .on("error", reject);
 
-        proc.stdout.on("data", data => {
+        proc.stdout.on("data", (data: Buffer) => {
             output += data.toString();
         });
 
-        proc.stderr.on("data", data => {
+        proc.stderr.on("data", (data: Buffer) => {
             stderr += data.toString();
             output += data.toString();
         });
@@ -53,9 +53,11 @@ class Npm {
         return (await spawn(NPM, ["config", "get", key])).trim();
     }
 
-    public async cacheAdd(packageName: string): Promise<string> {
+    public async cacheAdd(packageName: string): Promise<string | null> {
         const output = await spawn(NPM, ["cache", "add", packageName, "--verbose"]);
-        return /npm verb afterAdd (.*)[\\/]package[\\/]package.json written/gi.exec(output)[1];
+        const match = /npm verb afterAdd (.*)[\\/]package[\\/]package.json written/gi.exec(output);
+        if (match) return match[1];
+        return null;
     }
 
     public async install(packageName?: string): Promise<void> {
