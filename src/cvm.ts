@@ -68,23 +68,33 @@ export class Cvm {
     }
 
     public async install (version: string): Promise<void> {
-        validateVersion(version);
+        let versionToInstall = version;
 
-        if (this.isInstalled(version)) {
-            throw `cordova@${version} is already installed`;
+        validateVersion(versionToInstall);
+
+        if (versionToInstall === "latest") {
+            versionToInstall = (await npm.info("cordova"))["dist-tags"].latest;
         }
 
-        let availableVersions = await this.available();
-        if (availableVersions.indexOf(version) < 0) {
-            throw `cordova@${version} does not exist`;
+        if (this.isInstalled(versionToInstall)) {
+            throw `cordova@${versionToInstall} is already installed`;
         }
 
-        let spinner = ora(`Fetching cordova ${version}`);
+        // If we've been asked to install "latest" we dont-t need to validate it's
+        // availability - NPM will guarantee that latest will point to available version
+        if (version !== "latest") {
+            let availableVersions = await this.available();
+            if (availableVersions.indexOf(versionToInstall) < 0) {
+                throw `cordova@${versionToInstall} does not exist`;
+            }
+        }
+
+        let spinner = ora(`Fetching cordova ${versionToInstall}`);
         spinner.start();
-        let cachedLocation = await npm.cacheAdd(`cordova@${version}`);
+        let cachedLocation = await npm.cacheAdd(`cordova@${versionToInstall}`);
 
         spinner.text = "Unpacking cordova to cvm root";
-        let installDir = path.join(this.config.root, version);
+        let installDir = path.join(this.config.root, versionToInstall);
         await unTgz(path.join(cachedLocation, "package.tgz"), installDir);
 
         spinner.text = "Installing downloaded cordova distribution";
@@ -186,6 +196,10 @@ export class Cvm {
 }
 
 function validateVersion(version: string) {
+    // 'latest' is valid version identifier though it doesn't
+    // vaidates by semver, so we handle it manually here
+    if (version === "latest") return true;
+
     if (!semver.valid(version, /*loose=*/true)) {
         throw `Version ${version} is not valid version identifier`;
     }
