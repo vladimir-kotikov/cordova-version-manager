@@ -32,6 +32,17 @@ async function spawn(command: string, args: string[], cwd: string = process.cwd(
     });
 }
 
+export interface NpmInfo {
+    name: string;
+    description: string;
+    "dist-tags": {
+        latest: string;
+        [tag: string]: string
+    };
+    version: string;
+    versions: string[];
+}
+
 export class NpmOpts {
     global: boolean = false;
 }
@@ -44,9 +55,9 @@ class Npm {
         return this;
     }
 
-    public async info(packageName: string): Promise<Object> {
+    public async info(packageName: string): Promise<NpmInfo> {
         let npmInfo = await spawn(NPM, ["info", packageName, "--json"]);
-        return Promise.resolve(JSON.parse(npmInfo.trim()));
+        return <NpmInfo>(JSON.parse(npmInfo.trim()));
     }
 
     public async getConfig(key: string): Promise<string> {
