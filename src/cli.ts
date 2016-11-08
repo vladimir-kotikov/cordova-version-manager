@@ -22,12 +22,15 @@ let logErrorAndExit = (err: any) => {
     process.exit(2);
 };
 
+let success = () => process.exit(0);
+
 if (options.ls || options.list) {
     if (options.available) {
         cvm.available()
         .then((v) => {
             console.log(v.map(v => "    " + v).join("\n"));
         })
+        .then(success)
         .catch(logErrorAndExit);
     } else {
         cvm.current()
@@ -38,6 +41,7 @@ if (options.ls || options.list) {
 
             console.log(`Installed versions:\n` + versions);
         })
+        .then(success)
         .catch(logErrorAndExit);
     }
 }
@@ -45,22 +49,26 @@ if (options.ls || options.list) {
 if (options.install) {
     const version = options["<version>"];
     cvm.install(version)
+    .then(success)
     .catch(logErrorAndExit);
 }
 
 if (options.uninstall) {
     const version = options["<version>"];
     cvm.uninstall(version)
+    .then(success)
     .catch(logErrorAndExit);
 }
 
 if (options.use) {
     const version = options["<version>"];
     cvm.use(version)
+    .then(success)
     .catch(logErrorAndExit);
 }
 
 if (options.on || options.off) {
     (options.on ? cvm.on() : cvm.off())
+    .then(success)
     .catch(logErrorAndExit);
 }
