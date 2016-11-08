@@ -33,14 +33,13 @@ export class Cvm {
      * @returns {Promise<string|null>} Location which global cordova is linked to
      */
     private async readGlobalLink(): Promise<string | null> {
-        let result: string;
         let npmRoot = await npm.getConfig("prefix");
 
         try {
-            result = fs.realpathSync(path.join(npmRoot, "node_modules/cordova"));
-        } catch (e) { }
-
-        return null;
+            return fs.realpathSync(path.join(npmRoot, "node_modules/cordova"));
+        } catch (e) {
+            return null;
+        }
     }
 
     public async current(): Promise<string | null> {
