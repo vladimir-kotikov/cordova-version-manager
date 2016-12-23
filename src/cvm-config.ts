@@ -17,6 +17,12 @@ export class CvmConfig {
         this.root = cvmRoot;
         this.cvmrc = cvmRc || path.join(cvmRoot, ".cvmrc");
 
+        // Don't fail if config doesn't exist - this is most likely due to fresh CVM setup
+        if (!fs.existsSync(this.cvmrc)) {
+            this._config = {};
+            return this;
+        }
+
         try {
             this._config = JSON.parse(fs.readFileSync(this.cvmrc, "utf8"));
         } catch (e) {
