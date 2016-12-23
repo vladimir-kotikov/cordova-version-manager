@@ -69,6 +69,11 @@ export class Cvm {
     public async fetch (version: string): Promise<string> {
         let versionToInstall = version;
 
+        if (semver.validRange(versionToInstall, /*loose=*/true)) {
+            let availableVersions = (await npm.info("cordova"))["versions"];
+            versionToInstall = semver.maxSatisfying(availableVersions, versionToInstall, true);
+        }
+
         validateVersion(versionToInstall);
 
         if (versionToInstall === "latest") {

@@ -9,13 +9,15 @@
             "taskName": "build",
             "isBuildCommand": true,
             "args": ["run", "build"],
-            "problemMatcher": "$tsc"
+            "problemMatcher": "$tsc",
+            "showOutput": "silent"
         },
         {
             "taskName": "watch",
             "args": ["run", "build", "--",  "--watch"],
             "isWatching": true,
-            "problemMatcher": "$tsc-watch"
+            "problemMatcher": "$tsc-watch",
+            "showOutput": "silent"
         }
     ]
 }
