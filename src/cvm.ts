@@ -66,7 +66,7 @@ export class Cvm {
         return (await npm.info("cordova"))["versions"];
     }
 
-    public async install (version: string): Promise<void> {
+    public async fetch (version: string): Promise<string> {
         let versionToInstall = version;
 
         validateVersion(versionToInstall);
@@ -79,7 +79,7 @@ export class Cvm {
             throw `cordova@${versionToInstall} is already installed`;
         }
 
-        // If we've been asked to install "latest" we dont-t need to validate it's
+        // If we've been asked to install "latest" we don't need to validate it's
         // availability - NPM will guarantee that latest will point to available version
         if (version !== "latest") {
             let availableVersions = await this.available();
@@ -96,10 +96,9 @@ export class Cvm {
         let installDir = path.join(this.config.root, versionToInstall);
         await unTgz(path.join(cachedLocation, "package.tgz"), installDir);
 
-        spinner.text = "Installing downloaded cordova distribution";
-        await npm.at(installDir).install();
-
         spinner.stop();
+
+        return versionToInstall;
     }
 
     public async uninstall (version: string): Promise<void> {

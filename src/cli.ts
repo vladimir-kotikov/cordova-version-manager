@@ -48,7 +48,8 @@ if (options.ls || options.list) {
 
 if (options.install) {
     const version = options["<version>"];
-    cvm.install(version)
+    cvm.fetch(version)
+    .then(version => cvm.use(version))
     .then(success)
     .catch(logErrorAndExit);
 }
