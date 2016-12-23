@@ -15,7 +15,7 @@
   "main": "lib/cvm.js",
   "scripts": {
     "restore": "typings install",
-    "build": "npm run restore && tsc",
+    "build": "tsc",
     "test": "tslint src/**/*.ts",
     "prepublish": "npm run build"
   },

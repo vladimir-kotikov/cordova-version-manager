@@ -4,8 +4,5 @@ node_modules
 # compiled stuff
 lib
 
-# vscode files
-.vscode
-
 # other
 *.tgz
