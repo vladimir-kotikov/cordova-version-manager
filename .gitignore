@@ -6,3 +6,4 @@ lib
 
 # other
 *.tgz
+npm-debug.log

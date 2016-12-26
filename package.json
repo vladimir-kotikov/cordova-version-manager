@@ -34,13 +34,13 @@
     "tar": "^2.2.1"
   },
   "devDependencies": {
-    "@types/docopt": "^0.6.29",
     "@types/node": "^6.0.53",
     "@types/ora": "^0.3.31",
     "@types/q": "0.0.32",
     "@types/rimraf": "0.0.28",
     "@types/semver": "^5.3.30",
     "@types/tar": "^1.0.28",
+    "retyped-docopt-tsd-ambient": "0.0.0-0",
     "tslint": "^3.15.1",
     "typescript": "^2.1.4"
   }

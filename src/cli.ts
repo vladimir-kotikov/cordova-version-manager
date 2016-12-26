@@ -1,6 +1,7 @@
+/// <reference path="../node_modules/retyped-docopt-tsd-ambient/docopt.d.ts" />
 
 import { Cvm } from "./cvm";
-import docopt =  require("docopt");
+import { docopt } from "docopt";
 
 let USAGE = `
 Usage:
