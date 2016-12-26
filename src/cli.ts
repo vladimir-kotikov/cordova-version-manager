@@ -1,6 +1,6 @@
 
 import { Cvm } from "./cvm";
-import { docopt } from "docopt";
+import docopt =  require("docopt");
 
 let USAGE = `
 Usage:
